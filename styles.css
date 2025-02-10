@@ -1,0 +1,340 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
+
+/* General Styling */
+body {
+    font-family: 'Orbitron', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #000000;
+    color: #ffffff;
+    overflow-x: hidden;
+}
+
+/* Navigation Bar */
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    padding: px 0;
+    text-align: center;
+    z-index: 1000;
+    box-shadow: 0px 0px 20px rgba(255, 215, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease;
+}
+
+nav:hover {
+    background: rgba(0, 0, 0, 1);
+}
+
+.nav-logo {
+    height: 60px;
+    margin-right: 20px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.nav-logo:hover {
+    transform: scale(1.1) rotate(5deg);
+}
+
+nav a {
+    color: #FFD700;
+    text-decoration: none;
+    margin: 0 20px;
+    font-size: 22px;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: color 0.3s, text-shadow 0.3s;
+}
+
+nav a:hover {
+    color: #FFEA00;
+    text-shadow: 0px 0px 10px #FFEA00;
+}
+
+/* Hero Section */
+.hero-container {
+    background: url("images/bg.jpg") no-repeat center center/cover;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Dark Overlay */
+.hero-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+/* Hero Text */
+.hero-content {
+    position: relative;
+    z-index: 1;
+    color: #FFD700;
+    animation: fadeIn 2s ease-in-out;
+}
+
+.hero-content h1 {
+    font-size: 6rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+/* Sections */
+.section {
+    padding: 100px 20px;
+    text-align: center;
+    background: #1a1a1a;
+    border-bottom: 4px solid rgba(255, 215, 0, 0.5);
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+.section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.section h2 {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    color: #FFD700;
+    text-transform: uppercase;
+}
+
+/* Event Cards Grid */
+.cards {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+    padding: 20px;
+}
+
+/* Individual Event Card */
+.card {
+    background: linear-gradient(135deg, #222, #333);
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0px 0px 25px rgba(255, 215, 0, 0.4);
+    transition: transform 0.3s, box-shadow 0.3s;
+    perspective: 1000px;
+    width: 300px; /* Fixed width for uniformity */
+    position: relative; /* For tilt effect */
+}
+
+.card:hover {
+    transform: rotateY(5deg) scale(1.05);
+    box-shadow: 0px 0px 30px rgba(255, 215, 0, 0.6);
+}
+
+.card img {
+    width: 100%;
+    border-radius: 12px;
+    transition: transform 0.3s;
+}
+
+.card img:hover {
+    transform: scale(1.05);
+}
+
+.card h3 {
+    margin-top: 15px;
+    color: #FFD700;
+    font-size: 2rem;
+}
+
+/* Button Styles */
+.card-buttons {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.btn {
+    background: #FFEA00;
+    color: black;
+    padding: 12px 18px;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 15px;
+    font-weight: bold;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.btn:hover {
+    background: #FFD700;
+    transform: scale(1.1);
+}
+
+/* Contact Section */
+.contact-section {
+    background: #1a1a1a;
+    padding: 80px 10%;
+    text-align: center;
+}
+
+.contact-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 50px;
+}
+
+/* Contact Info */
+.contact-info {
+    flex: 1;
+    text-align: left;
+}
+
+.contact-info h2 {
+    font-size: 32px;
+    margin-bottom: 10px;
+    color: #FFD700;
+    text-transform: uppercase;
+}
+
+.contact-info p {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #bbb;
+}
+
+.contact-details {
+    margin-top: 20px;
+}
+
+.contact-details p {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+.contact-details i {
+    color: #FFEA00;
+}
+
+/* Social Media Icons */
+.social-media {
+    margin-top: 20px;
+}
+
+.social-media a {
+    color: white;
+    font-size: 28px;
+    margin-right: 20px;
+    transition: transform 0.3s, color 0.3s;
+}
+
+.social-media a:hover {
+    color: #FFD700;
+    transform: scale(1.2);
+}
+
+/* Map */
+.map-container {
+    flex: 1;
+    height: 350px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 0px 15px rgba(255, 215, 0, 0.5);
+}
+
+/* Footer */
+footer {
+    margin-top: 40px;
+    text-align: center;
+    font-size: 16px;
+    color: #bbb;
+    padding: 30px;
+    background: #111;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: 4rem;
+    }
+
+    .cards {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .contact-container {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+/* Hero Section */
+.hero-section {
+    background: #1a1a1a; /* Dark background for the hero section */
+    padding: 100px 20px; /* Padding for top and bottom */
+    text-align: center; /* Center text alignment */
+}
+
+.hero-section h1 {
+    font-size: 4rem; /* Adjusted font size for the main heading */
+    color: #00FFCC; /* Bright cyan for the main heading */
+    margin-bottom: 20px; /* Space below the heading */
+    text-transform: uppercase; /* Uppercase for emphasis */
+    animation: fadeIn 1s ease-in-out; /* Fade-in animation */
+}
+
+.hero-section .subheading {
+    font-size: 1.5rem; /* Font size for the subheading */
+    color: #e0e0e0; /* Light color for contrast */
+    margin-bottom: 40px; /* Space below the subheading */
+}
+
+/* Stats Container */
+.stats-container {
+    display: flex; /* Use flexbox for alignment */
+    justify-content: center; /* Center the stats horizontally */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    gap: 30px; /* Space between stat boxes */
+}
+
+/* Stat Box */
+.stat-box {
+    background: rgba(0, 0, 0, 0.8); /* Dark background for stat boxes */
+    border-radius: 10px; /* Rounded corners */
+    padding: 20px; /* Padding inside the box */
+    width: 150px; /* Fixed width for uniformity */
+    box-shadow: 0px 0px 15px rgba(0, 255, 255, 0.5); /* Cyan shadow */
+    transition: transform 0.3s; /* Transition for hover effect */
+}
+
+.stat-box:hover {
+    transform: scale(1.05); /* Slight zoom on hover */
+}
+
+.stat-box h2 {
+    font-size: 2.5rem; /* Font size for the stat number */
+    color: #FFD700; /* Bright yellow for the stat number */
+    margin: 0; /* Remove default margin */
+}
+
+.stat-box p {
+    font-size: 1rem; /* Font size for the description */
+    color: #bbb; /* Light color for description */
+    margin-top: 10px; /* Space above the description */
+}

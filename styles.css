@@ -4,7 +4,7 @@
 
 /* General Styling */
 body {
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Roboto Mono', monospace;
     margin: 0;
     padding: 0;
     background: #000000;
@@ -116,6 +116,29 @@ nav a:hover {
     margin-bottom: 20px;
     color: #FFD700;
     text-transform: uppercase;
+}
+
+.brochure-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.btn-brochure {
+    display: inline-block;
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
+    color: white;
+    padding: 12px 24px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 8px;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-brochure:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
 }
 
 /* Event Cards Grid */

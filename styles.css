@@ -1,6 +1,7 @@
 /* Import Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Dirt&display=swap');
 
 /* General Styling */
 body {
@@ -67,6 +68,7 @@ nav a:hover {
     text-align: center;
     position: relative;
     overflow: hidden;
+    padding-top: 80px;
 }
 
 /* Dark Overlay */
@@ -89,10 +91,27 @@ nav a:hover {
 }
 
 .hero-content h1 {
+    font-family: 'Rubik Dirt', cursive;
     font-size: 6rem;
     font-weight: 600;
     text-transform: uppercase;
     margin: 0;
+}
+
+/* Styling for the hero logo */
+.hero-logo {
+    height: 150px;
+    margin-right: 20px;
+    vertical-align: middle;
+}
+
+/* Styling for the college logo */
+.college-logo {
+    height: 50px; /* Adjust height as needed */
+    position: absolute; /* Position it absolutely */
+    right: 20px; /* Distance from the right edge */
+    top: 80px; /* Adjust this value to be below the nav bar */
+    z-index: 1; /* Ensure it appears above other content */
 }
 
 /* Sections */
@@ -118,27 +137,35 @@ nav a:hover {
     text-transform: uppercase;
 }
 
+/* Brochure Download Button */
 .brochure-container {
-    text-align: center;
-    margin-top: 20px;
+    position: absolute; /* Position it absolutely */
+    right: 20px; /* Distance from the right edge */
+    top: 20px; /* Adjust this value to align with the nav bar */
+    z-index: 1000; /* Ensure it appears above other content */
 }
 
 .btn-brochure {
     display: inline-block;
-    background: linear-gradient(45deg, #ff416c, #ff4b2b);
+    
     color: white;
     padding: 12px 24px;
     font-size: 18px;
     font-weight: bold;
     border-radius: 8px;
     text-decoration: none;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
+    transition: transform 0.2s, box-shadow 0.2s, background 0.3s; /* Added background transition */
 }
 
 .btn-brochure:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    transform: translateY(-3px); /* Slight lift effect */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4); /* Enhanced shadow on hover */
+    background: linear-gradient(45deg, #ff4b2b, #ff416c); /* Reverse gradient on hover */
+}
+
+.btn-brochure i {
+    margin-right: 8px; /* Space between icon and text */
 }
 
 /* Event Cards Grid */
@@ -361,4 +388,9 @@ footer {
     font-size: 1rem; /* Font size for the description */
     color: #bbb; /* Light color for description */
     margin-top: 10px; /* Space above the description */
+}
+
+/* Adjust hero container to relative for absolute positioning */
+.hero-container {
+    position: relative; /* Set position to relative for absolute children */
 }

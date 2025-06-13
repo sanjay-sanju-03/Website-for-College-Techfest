@@ -46,7 +46,7 @@ For queries and collaborations, please contact:
 ## 📷 Gallery & Updates
 
 Follow us for updates and behind-the-scenes content:  
-🌐 Website: [https://cipherfest.in](https://cipherfest.in)  
+🌐 Website: [https://cipher25-eight.vercel.app/](https://cipher25-eight.vercel.app/)  
 📸 Instagram: [@cipher_lbscek](https://instagram.com/cipher_lbscek)
 
 ---

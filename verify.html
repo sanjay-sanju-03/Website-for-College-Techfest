@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Certificate Verification | CIPHER25</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9f9f9;
+      padding: 2rem;
+      color: #333;
+    }
+    .box {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 500px;
+      margin: auto;
+    }
+    .valid {
+      color: green;
+    }
+    .invalid {
+      color: red;
+    }
+    h2 {
+      color: #222;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>Certificate Verification</h2>
+    <p><strong>Status:</strong> <span id="status">Checking...</span></p>
+    <div id="details" style="margin-top: 1rem;"></div>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const certId = urlParams.get("cert");
+    const statusEl = document.getElementById("status");
+    const detailsEl = document.getElementById("details");
+
+    // 🔁 Replace this with your published Google Sheet CSV link
+    const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRXS-z5EEK2f3WGSZLIASR3TQBkwXiwuR2oCjfiB85bHZ_i8R_eN_--s9vySYLxBlMXxcQNOPcltYgy/pub?gid=0&single=true&output=csv";
+
+    fetch(sheetUrl)
+      .then(res => res.text())
+      .then(csv => {
+        const rows = csv.trim().split("\n");
+        const headers = rows[0].split(",");
+        const entries = rows.slice(1).map(row => {
+          const values = row.split(",");
+          return Object.fromEntries(values.map((val, i) => [headers[i].trim(), val.trim()]));
+        });
+
+        const match = entries.find(row => row["Certificate ID"] === certId);
+
+        if (match) {
+          statusEl.textContent = "✅ Valid Certificate";
+          statusEl.className = "valid";
+          detailsEl.innerHTML = `
+            <p><strong>Name:</strong> ${match["Name"]}</p>
+            <p><strong>Event:</strong> ${match["Event"]}</p>
+            <p><strong>Type:</strong> ${match["Type"]}</p>
+            <p><strong>Certificate ID:</strong> ${match["Certificate ID"]}</p>
+          `;
+        } else {
+          statusEl.textContent = "❌ Invalid Certificate";
+          statusEl.className = "invalid";
+        }
+      })
+      .catch(err => {
+        statusEl.textContent = "⚠️ Error loading certificate data";
+        statusEl.className = "invalid";
+      });
+  </script>
+</body>
+</html>

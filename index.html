@@ -27,7 +27,13 @@
         <a href="#about">About</a>
         <a href="#events">Events</a>
         <a href="#contact">Contact</a>
-        <a href="#">
+        <a href="certificates.html" id="cert-link">Certificates</a>
+        <script>
+          document.getElementById('cert-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.open('certificates.html', '_blank');
+          });
+        </script>
             <img src="images/dept.png" alt="CIPHER'25 Logo" class="nav-logo">
         </a>
     </nav>

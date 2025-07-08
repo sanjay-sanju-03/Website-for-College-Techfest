@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CIPHER'25 Certificates</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/logo.png">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik+Dirt&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        html, body {
+            height: 100%;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: linear-gradient(135deg, #101010 0%, #232323 100%);
+            font-family: 'Roboto Mono', 'Space Mono', Arial, sans-serif;
+            color: var(--gray);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+        .main-container {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 16px 60px 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 90px; /* Prevent nav overlap */
+            flex: 1 0 auto;
+        }
+        :root {
+            --yellow: #ffd600;
+            --black: #101010;
+            --gray: #eaeaea;
+            --card-bg: #181818;
+        }
+        .cert-title {
+            font-family: 'Rubik Dirt', 'Roboto Mono', monospace, Arial, sans-serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--yellow);
+            margin-bottom: 10px;
+            text-align: center;
+            letter-spacing: 2px;
+        }
+        .cert-subtitle {
+            font-size: 1.2rem;
+            color: #fffbe7;
+            margin-bottom: 40px;
+            text-align: center;
+            font-family: 'Roboto Mono', monospace;
+        }
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px 36px;
+            width: 100%;
+            max-width: 1000px;
+        }
+        .cert-card {
+            background: var(--card-bg);
+            border-radius: 18px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+            padding: 38px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 120px;
+            font-size: 1.18rem;
+            font-weight: 600;
+            font-family: 'Roboto Mono', monospace;
+            color: var(--gray);
+            text-align: center;
+            cursor: pointer;
+            text-decoration: none;
+            border: none;
+            transition: background 0.18s, color 0.18s, box-shadow 0.18s, transform 0.18s;
+            position: relative;
+        }
+        .cert-card:hover, .cert-card:focus {
+            background: #222;
+            color: var(--yellow);
+            box-shadow: 0 8px 32px #ffd60033;
+            transform: translateY(-4px) scale(1.03);
+        }
+        @media (max-width: 1100px) {
+            .cert-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 700px) {
+            .cert-grid {
+                grid-template-columns: 1fr;
+                gap: 18px;
+            }
+            .main-container {
+                padding: 24px 4vw 40px 4vw;
+            }
+        }
+        @media (max-width: 500px) {
+            .cert-title {
+                font-size: 1.5rem;
+            }
+            .cert-card {
+                font-size: 1rem;
+                padding: 22px 8px;
+            }
+        }
+        footer {
+            width: 100%;
+            text-align: center;
+            padding: 24px 0 12px 0;
+            color: #888;
+            font-size: 1rem;
+            background: transparent;
+            letter-spacing: 1px;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation (copied from index.html) -->
+    <nav>
+        <a href="index.html#home">Home</a>
+        <a href="index.html#about">About</a>
+        <a href="index.html#events">Events</a>
+        <a href="index.html#contact">Contact</a>
+        <a href="index.html">
+            <img src="images/dept.png" alt="CIPHER'25 Logo" class="nav-logo">
+        </a>
+    </nav>
+    <div class="main-container">
+        <div class="cert-title">CIPHER'25 Certificates</div>
+        <div class="cert-subtitle">Explore and download your certificates</div>
+        <div class="cert-grid">
+            <a class="cert-card" href="#" target="_blank" rel="noopener noreferrer">CIPHERTHON'25</a>
+            <a class="cert-card" href="#" target="_blank" rel="noopener noreferrer">ENGINEERING THE FUTURE</a>
+            <a class="cert-card" href="#" target="_blank" rel="noopener noreferrer">TECH TALK</a>
+            <a class="cert-card" href="#" target="_blank" rel="noopener noreferrer">QUEST-ION – The Ultimate Tech Quiz!</a>
+            <a class="cert-card" href="#" target="_blank" rel="noopener noreferrer">Clash of Minds</a>
+            <a class="cert-card" href="#" target="_blank" rel="noopener noreferrer">UXPLORE - A UI/UX design challenge</a>
+        </div>
+    </div>
+    <footer>
+        &copy; <span id="year"></span> CIPHER'25 | ASSOCIATION OF B-TECH IN IT, 2024-25 | LBSCEK
+    </footer>
+    <script>
+        // Set current year in footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

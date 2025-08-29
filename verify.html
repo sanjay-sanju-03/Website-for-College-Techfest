@@ -503,6 +503,7 @@
               <div class="detail-row"><span class="label">Event</span><span class="value">${data.event}</span></div>
               <div class="detail-row"><span class="label">Certificate Type</span><span class="value">${data.certType}</span></div>
               <div class="detail-row"><span class="label">Issued on</span><span class="value">${data.issueDate}</span></div>
+              <div class="detail-row"><span class="label">Download Certificate</span><button class="value" onclick="window.open('${data.docLink}', '_blank')">Download</button></div>
             `;
             detailsDiv.classList.add("show");
           } else {

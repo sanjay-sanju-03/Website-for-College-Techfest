@@ -1,124 +1,532 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CIPHER25 | Certificate Verification</title>
-  <style>
-    body {
-      background-color: #0f172a;
-      font-family: 'Segoe UI', sans-serif;
-      color: #f1f5f9;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Certificate Verification</title>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <style>
+    * {
       margin: 0;
-      padding: 2rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #f1f5f9;
       min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Animated background elements */
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        radial-gradient(circle at 20% 20%, rgba(34, 197, 94, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 70%, rgba(168, 85, 247, 0.05) 0%, transparent 50%);
+      animation: float 20s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      33% { transform: translateY(-20px) rotate(1deg); }
+      66% { transform: translateY(-10px) rotate(-1deg); }
     }
 
     .container {
-      background-color: #1e293b;
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.3);
-      max-width: 450px;
+      background: rgba(30, 41, 59, 0.95);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 2.5rem;
+      border-radius: 20px;
+      box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.05),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      max-width: 500px;
       width: 100%;
+      text-align: center;
+      position: relative;
+      z-index: 1;
     }
 
-    h2 {
-      text-align: center;
-      margin-bottom: 1rem;
-      color: #22c55e;
+    .header {
+      margin-bottom: 2rem;
+    }
+
+    .logo {
+      font-size: 2.5rem;
+      font-weight: 900;
+      background: linear-gradient(45deg, #22c55e, #3b82f6, #a855f7);
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradientShift 3s ease-in-out infinite;
+      margin-bottom: 0.5rem;
+      letter-spacing: -1px;
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .subtitle {
+      color: #94a3b8;
+      font-size: 1.1rem;
+      font-weight: 500;
     }
 
     .status {
-      text-align: center;
-      font-size: 1.1rem;
-      margin-bottom: 1rem;
+      margin: 2rem 0;
+      padding: 1.5rem;
+      border-radius: 16px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .status::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .status.loading {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(59, 130, 246, 0.1));
+      border: 2px solid rgba(59, 130, 246, 0.3);
+      color: #60a5fa;
+    }
+
+    .status.loading::before {
+      animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { left: -100%; }
+      100% { left: 100%; }
     }
 
     .status.valid {
-      color: #22c55e;
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(34, 197, 94, 0.1));
+      border: 2px solid rgba(34, 197, 94, 0.4);
+      color: #4ade80;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
     }
 
     .status.invalid {
-      color: #ef4444;
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(239, 68, 68, 0.1));
+      border: 2px solid rgba(239, 68, 68, 0.4);
+      color: #f87171;
+      animation: shake 0.5s ease-in-out;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+
+    .loading-spinner {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      border: 3px solid rgba(255,255,255,0.2);
+      border-top: 3px solid #60a5fa;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-right: 12px;
+      vertical-align: middle;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
     .detail-box {
-      background-color: #0f172a;
-      padding: 1rem;
-      border-radius: 8px;
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.8), rgba(30, 41, 59, 0.8));
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 2rem;
+      border-radius: 16px;
+      margin-top: 1.5rem;
+      text-align: left;
+      display: none;
+      position: relative;
+      overflow: hidden;
     }
 
-    .detail-box p {
-      margin: 0.6rem 0;
-      font-size: 1rem;
+    .detail-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #22c55e, #3b82f6, #a855f7);
+    }
+
+    .detail-box.show {
+      display: block;
+      animation: slideUp 0.6s ease-out;
+    }
+
+    @keyframes slideUp {
+      from { 
+        opacity: 0; 
+        transform: translateY(30px); 
+      }
+      to { 
+        opacity: 1; 
+        transform: translateY(0); 
+      }
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1.2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .detail-row:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
     }
 
     .label {
       color: #94a3b8;
+      font-weight: 600;
+      font-size: 0.95rem;
+      min-width: 120px;
+      flex-shrink: 0;
     }
 
-    @media (max-width: 500px) {
+    .value {
+      color: #f1f5f9;
+      font-weight: 500;
+      text-align: right;
+      flex: 1;
+      margin-left: 1rem;
+      word-break: break-word;
+    }
+
+    .value.highlight {
+      color: #22c55e;
+      font-weight: 700;
+    }
+
+    .tech-fest-info {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 2px solid rgba(34, 197, 94, 0.3);
+      text-align: center;
+    }
+
+    .tech-fest-logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      background: linear-gradient(45deg, #22c55e, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+    }
+
+    .verification-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: linear-gradient(45deg, #22c55e, #16a34a);
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 25px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-top: 1.5rem;
+      box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from { box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3); }
+      to { box-shadow: 0 4px 25px rgba(34, 197, 94, 0.5); }
+    }
+
+    .qr-info {
+      margin-top: 1rem;
+      font-size: 0.85rem;
+      color: #64748b;
+      font-style: italic;
+    }
+
+    .error-details {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin-top: 1rem;
+    }
+
+    .error-title {
+      color: #f87171;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .error-message {
+      color: #fca5a5;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 600px) {
       body {
-        padding: 1rem;
+        padding: 0.5rem;
+      }
+      
+      .container {
+        padding: 1.5rem;
+      }
+      
+      .logo {
+        font-size: 2rem;
+      }
+      
+      .detail-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .value {
+        text-align: left;
+        margin-left: 0;
+        margin-top: 0.3rem;
+      }
+      
+      .label {
+        min-width: auto;
       }
     }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h2 id="cert-title">Certificate Verification</h2>
-    <div class="status" id="status">Checking...</div>
-    <div class="detail-box" id="details" style="display: none;"></div>
-  </div>
 
-  <script>
-    const certId = new URLSearchParams(window.location.search).get("cert");
-    const statusEl = document.getElementById("status");
-    const detailsEl = document.getElementById("details");
-
-    const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRk-Wu2A2hYVmaEVydRXlwBF4ev2ErIoEiBkKNN9hiPxhLJj9r09RAlpUGq_MPheGeolCxwkX_lIyGT/pub?output=csv";
-
-    if (!certId) {
-      statusEl.textContent = "No certificate ID provided.";
-      statusEl.className = "status invalid";
-    } else {
-      fetch(sheetUrl)
-        .then(res => res.text())
-        .then(csv => {
-          const [headerLine, ...lines] = csv.trim().split("\n");
-          const headers = headerLine.split(",");
-          const records = lines.map(line => {
-            const values = line.split(",");
-            return Object.fromEntries(values.map((val, i) => [headers[i].trim(), val.trim()]));
-          });
-
-          const cert = records.find(r => r["Certificate ID"] === certId);
-
-          if (cert) {
-            statusEl.textContent = "✅ Valid Certificate";
-            statusEl.className = "status valid";
-
-            detailsEl.innerHTML = `
-              <p><span class="label">Name:</span> ${cert["Name"]}</p>
-              <p><span class="label">Event:</span> ${cert["Event"]}</p>
-              <p><span class="label">Date:</span> ${cert["Date"]}</p>
-              <p><span class="label">Type:</span> ${cert["Type"]}</p>
-            `;
-            detailsEl.style.display = "block";
-          } else {
-            statusEl.textContent = "❌ Invalid Certificate ID";
-            statusEl.className = "status invalid";
-          }
-        })
-        .catch(() => {
-          statusEl.textContent = "Error fetching verification data.";
-          statusEl.className = "status invalid";
-        });
+    /* Additional tech fest styling */
+    .grade-badge {
+      display: inline-block;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-left: 0.5rem;
     }
-  </script>
-</body>
+
+        /* Modern input and button styling */
+    input[type="text"] {
+      width: 100%;
+      padding: 1rem 1.2rem;
+      border-radius: 12px;
+      border: 1.5px solid #334155;
+      background: rgba(15,23,42,0.7);
+      color: #f1f5f9;
+      font-size: 1.1rem;
+      margin-bottom: 1.2rem;
+      outline: none;
+      transition: border 0.2s, box-shadow 0.2s;
+      box-shadow: 0 2px 8px rgba(30,41,59,0.08);
+    }
+    input[type="text"]:focus {
+      border: 2px solid #3b82f6;
+      box-shadow: 0 0 0 2px #3b82f6aa;
+      background: rgba(30,41,59,0.95);
+    }
+
+    button {
+      width: 100%;
+      padding: 1rem 1.2rem;
+      border-radius: 12px;
+      border: none;
+      background: linear-gradient(90deg, #3b82f6 0%, #22c55e 100%);
+      color: #f1f5f9;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 1.1rem;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(34,197,94,0.08);
+      transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+    }
+    button:hover, button:focus {
+      background: linear-gradient(90deg, #22c55e 0%, #3b82f6 100%);
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 6px 24px rgba(59,130,246,0.15);
+    }
+    #scanBtn {
+      background: linear-gradient(90deg, #a855f7 0%, #3b82f6 100%);
+      margin-bottom: 1.5rem;
+    }
+    #scanBtn:hover, #scanBtn:focus {
+      background: linear-gradient(90deg, #3b82f6 0%, #a855f7 100%);
+    }
+
+    .grade-winner { background: linear-gradient(45deg, #ffd700, #ffed4a); color: #92400e; }
+    .grade-a { background: linear-gradient(45deg, #22c55e, #16a34a); color: white; }
+    .grade-b { background: linear-gradient(45deg, #3b82f6, #1d4ed8); color: white; }
+    .grade-participated { background: linear-gradient(45deg, #8b5cf6, #7c3aed); color: white; }
+    .grade-speaker { background: linear-gradient(45deg, #f59e0b, #d97706); color: white; }
+  </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="logo">Certificate Verification</div>
+        <div class="subtitle">Tech Fest 2025 | Secure &amp; Instant Validation</div>
+      </div>
+      <input type="text" id="certID" placeholder="Enter Certificate ID" />
+      <button onclick="searchCertificate()">Verify</button>
+      <div class="qr-info">or</div>
+      <button id="scanBtn" onclick="toggleQRScanner()">Scan QR Code</button>
+      <div id="qr-reader"></div>
+      <div id="result" class="status">Enter Certificate ID or Scan QR to verify</div>
+      <div id="details" class="detail-box"></div>
+      <div class="tech-fest-info">
+        <div class="tech-fest-logo">PES College of Engineering</div>
+        <div class="verification-badge">Verified by Organizing Committee <span>✔️</span></div>
+      </div>
+    </div>
+    <script>
+      let qrScannerActive = false;
+      let html5QrCode = null;
+      const apiUrl =
+        "https://script.google.com/macros/s/AKfycbyHMX0GMUFkFEG61TAvoO-GwcDIHrlKOPq9Kuk46saGsFUBnZRuZKqJpJdVeYdWCdJY6A/exec";
+
+      function toggleQRScanner() {
+        const qrReader = document.getElementById("qr-reader");
+
+        if (!qrScannerActive) {
+          html5QrCode = new Html5Qrcode("qr-reader");
+          html5QrCode
+            .start(
+              { facingMode: "environment" }, // Use the back camera
+              { fps: 10, qrbox: 250 },
+              (decodedText) => {
+                let certID = extractCertificateID(decodedText); // Extract ID from URL
+                document.getElementById("certID").value = certID;
+                verifyCertificate(certID);
+                stopQRScanner();
+              },
+              (errorMessage) => {
+                console.warn("QR Scan Error:", errorMessage);
+              }
+            )
+            .catch((err) => console.error("QR Scanner Error:", err));
+
+          qrReader.style.display = "block";
+          document.getElementById("scanBtn").innerText = "Stop Scanning";
+          qrScannerActive = true;
+        } else {
+          stopQRScanner();
+        }
+      }
+
+      // Extract certificate ID from URL if needed
+      function extractCertificateID(qrData) {
+        try {
+          let url = new URL(qrData);
+          return url.searchParams.get("id") || qrData; // Extract `id` or return raw data
+        } catch (e) {
+          return qrData; // If it's not a URL, return as is
+        }
+      }
+
+      function stopQRScanner() {
+        if (html5QrCode) {
+          html5QrCode
+            .stop()
+            .then(() => {
+              document.getElementById("qr-reader").style.display = "none";
+              document.getElementById("scanBtn").innerText = "Scan QR Code";
+              qrScannerActive = false;
+            })
+            .catch((err) => console.error("QR Scanner Stop Error:", err));
+        }
+      }
+
+      async function verifyCertificate(certID) {
+        const resultDiv = document.getElementById("result");
+        const detailsDiv = document.getElementById("details");
+        detailsDiv.classList.remove("show");
+        detailsDiv.innerHTML = "";
+        if (!certID) {
+          resultDiv.className = "status invalid";
+          resultDiv.innerHTML = `<span class="error-title">Invalid Certificate ID</span>`;
+          return;
+        }
+        resultDiv.className = "status loading";
+        resultDiv.innerHTML = `<span class="loading-spinner"></span> Verifying...`;
+        try {
+          const response = await fetch(
+            `${apiUrl}?id=${encodeURIComponent(certID)}`
+          );
+          const data = await response.json();
+          if (data.name) {
+            resultDiv.className = "status valid";
+            resultDiv.innerHTML = `✅ Certificate Verified!`;
+            detailsDiv.innerHTML = `
+              <div class="detail-row"><span class="label">Name</span><span class="value highlight">${data.name}</span></div>
+              <div class="detail-row"><span class="label">Class</span><span class="value">${data.class}</span></div>
+              <div class="detail-row"><span class="label">Event</span><span class="value">${data.event}</span></div>
+              <div class="detail-row"><span class="label">Certificate Type</span><span class="value">${data.certType}</span></div>
+              <div class="detail-row"><span class="label">Issued on</span><span class="value">${data.issueDate}</span></div>
+            `;
+            detailsDiv.classList.add("show");
+          } else {
+            resultDiv.className = "status invalid";
+            resultDiv.innerHTML = `<span class="error-title">❌ Certificate Not Found</span><div class="error-message">Check ID and try again.</div>`;
+          }
+        } catch (error) {
+          resultDiv.className = "status invalid";
+          resultDiv.innerHTML = `<span class="error-title">⚠️ Error Fetching Data</span><div class="error-message">Please try again later.</div>`;
+        }
+      }
+
+      function searchCertificate() {
+        const certID = document.getElementById("certID").value.trim();
+        verifyCertificate(certID);
+      }
+
+      window.onload = function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        let certID =
+          urlParams.get("id") ||
+          decodeURIComponent(window.location.hash.substring(1));
+        if (certID) verifyCertificate(certID);
+      };
+    </script>
+  </body>
 </html>

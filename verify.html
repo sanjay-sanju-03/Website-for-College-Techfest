@@ -423,7 +423,7 @@
       let qrScannerActive = false;
       let html5QrCode = null;
       const apiUrl =
-        "https://script.google.com/macros/s/AKfycbyHMX0GMUFkFEG61TAvoO-GwcDIHrlKOPq9Kuk46saGsFUBnZRuZKqJpJdVeYdWCdJY6A/exec";
+        "https://script.google.com/macros/s/AKfycbxuB-gIb_KNN7buQ16YvBLh3sWvTSJSN2mgwOEQBzzNDfQUhdX5byE5RseEatsbyQq0/exec";
 
       function toggleQRScanner() {
         const qrReader = document.getElementById("qr-reader");
@@ -502,7 +502,7 @@
               <div class="detail-row"><span class="label">Class</span><span class="value">${data.class}</span></div>
               <div class="detail-row"><span class="label">Event</span><span class="value">${data.event}</span></div>
               <div class="detail-row"><span class="label">Certificate Type</span><span class="value">${data.certType}</span></div>
-              <div class="detail-row"><span class="label">Issued on</span><span class="value">${data.issueDate}</span></div>
+              <div class="detail-row"><span class="label">Event Date</span><span class="value">${data.eventDate}</span></div>
               <div class="detail-row"><span class="label">Download Certificate</span><button class="value" onclick="window.open('${data.docLink}', '_blank')">Download</button></div>
             `;
             detailsDiv.classList.add("show");
